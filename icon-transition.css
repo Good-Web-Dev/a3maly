@@ -1,0 +1,64 @@
+svg .svg-elem-1 {
+  stroke-dashoffset: 4812.01123046875px;
+  stroke-dasharray: 4812.01123046875px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 1s ease-in-out 0s, fill 1s ease-in-out 2.7s;
+          transition: stroke-dashoffset 1s ease-in-out 0s, fill 1s ease-in-out 2.7s;
+}
+
+svg.active .svg-elem-1 {
+  stroke-dashoffset: 9624.0224609375px;
+  fill: rgb(46, 99, 90);
+}
+
+svg .svg-elem-2 {
+  stroke-dashoffset: 7327.06640625px;
+  stroke-dasharray: 7327.06640625px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 1s ease-in-out 0.5s, fill 1s ease-in-out 2.7s;
+          transition: stroke-dashoffset 1s ease-in-out 0.5s, fill 1s ease-in-out 2.7s;
+}
+
+svg.active .svg-elem-2 {
+  stroke-dashoffset: 14654.1328125px;
+  fill: rgb(46, 99, 90);
+}
+
+svg .svg-elem-3 {
+  stroke-dashoffset: 25206.5px;
+  stroke-dasharray: 25206.5px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 1s ease-in-out 1s, fill 1s ease-in-out 2.7s;
+          transition: stroke-dashoffset 1s ease-in-out 1s, fill 1s ease-in-out 2.7s;
+}
+
+svg.active .svg-elem-3 {
+  stroke-dashoffset: 50413px;
+  fill: rgb(46, 99, 90);
+}
+
+svg .svg-elem-4 {
+  stroke-dashoffset: 59266.96484375px;
+  stroke-dasharray: 59266.96484375px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 1s ease-in-out 1.5s, fill 1s ease-in-out 2.7s;
+          transition: stroke-dashoffset 1s ease-in-out 1.5s, fill 1s ease-in-out 2.7s;
+}
+
+svg.active .svg-elem-4 {
+  stroke-dashoffset: 118533.9296875px;
+  fill: rgb(46, 99, 90);
+}
+
+svg .svg-elem-5 {
+  stroke-dashoffset: 4247.99609375px;
+  stroke-dasharray: 4247.99609375px;
+  fill: transparent;
+  -webkit-transition: stroke-dashoffset 1s ease-in-out 2s, fill 1s ease-in-out 2.7s;
+          transition: stroke-dashoffset 1s ease-in-out 2s, fill 1s ease-in-out 2.7s;
+}
+
+svg.active .svg-elem-5 {
+  stroke-dashoffset: 8495.9921875px;
+  fill: rgb(46, 99, 90);
+}
