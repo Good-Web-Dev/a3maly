@@ -79,10 +79,12 @@ font-weight:600;
 position:relative;
 top:9px;
 padding-right:20px;
+font-size:9px;
 }
 #hijri-date{
 position:relative;
 bottom:0px;
+font-size:9px;
 }
 details{
 padding:5px 0;
@@ -129,7 +131,7 @@ display:grid;
 grid-template-columns:1fr 1fr;
 }
 .header-btns{
-font-size:5px;
+font-size:9px;
 font-weight:600;
 color:#2E635A;
 margin:auto 5px;
@@ -205,6 +207,7 @@ top:-3px;
 width:100px;
 position:absolute;
 top:-25px;
+left:-97px;
 }
 #loaderBox{
 position: fixed;

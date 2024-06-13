@@ -23,7 +23,7 @@ function includeHTML() {
 includeHTML();
 window.setTimeout(function(){
 goIncludeHTML();
-}, 3000);
+}, 4000);
 
 window.setTimeout(function() {
 var contents = document.getElementsByClassName("content");
@@ -197,14 +197,23 @@ function displayDates() {
 
 displayDates();
 
+function hideRow(button) {
+  var row = button.parentNode.parentNode;
+  localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
+  row.style.animation = "fade-out 0.5s ease-in-out";
+  setTimeout(function() {
+    row.style.display = 'none';
+  }, 500);
+}
+
 function goIncludeHTML(){
+
+const workTr = document.querySelectorAll('.work-tr');
 
 var timeInMS = {
     day: 60 * 60 * 24 * 1000,
     hour: 60 * 60 * 1000
 }
-
-const workTr = document.querySelectorAll('.work-tr');
 
 function checkExpiration() {
     const currentDate = new Date();
@@ -261,28 +270,17 @@ checkExpiration();
 
 setInterval(checkExpiration, 1000);
 
-workTr.forEach((row, index) => {
+  workTr.forEach((row, index) => {
     row.setAttribute('data-row-number', index + 1);
-});
-
-function hideRow(button) {
-    var row = button.parentNode.parentNode;
-row.style.animation="fade-out 0.5s ease-in-out"
-setTimeout(function(){
-        row.style.display = 'none';
-}, 500);
-    localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
-}
-
-window.addEventListener('DOMContentLoaded', function() {
-    workTr.forEach(row => {
-        var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
-
-        if(rowState === 'hidden') {
-            row.style.display = 'none';
-        }
+    row.querySelector('button').addEventListener('click', function() {
+      hideRow(this);
     });
-});
+
+    var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
+    if (rowState === 'hidden') {
+      row.style.display = 'none';
+    }
+  });
 
 function sortRows(table) {
     var rows = Array.from(table.getElementsByTagName('tr'));
@@ -375,13 +373,5 @@ setTimeout(function(){
     hideEndedRows.dataset.state = 'hidden';
     localStorage.setItem('endedRowsState', 'hidden');
 }
-
-ScrollReveal().reveal('tr',{
-    delay: 100,
-    reset: true,
-    easing: 'ease-in-out',
-    duration: 700,
-    opacity: 0
-  });
 
 }
