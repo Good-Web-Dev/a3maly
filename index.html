@@ -148,7 +148,7 @@ l59 -18 -7 -220 c-4 -121 -8 -220 -9 -221 -2 -2 -169 44 -927 256 -58 16 -170
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js')
+      navigator.serviceWorker.register('sw.js')
         .then(registration => {
           console.log('Service Worker registered successfully:', registration);
         })
