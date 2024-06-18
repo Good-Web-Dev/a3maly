@@ -1,6 +1,6 @@
 ::selection{
-color:#000;
-background:sandybrown;
+color:whitesmoke;
+background:gray;
 }
 br, img{
 user-select: none;
@@ -80,11 +80,13 @@ position:relative;
 top:9px;
 padding-right:20px;
 font-size:9px;
+font-weight:600;
 }
 #hijri-date{
 position:relative;
 bottom:0px;
 font-size:9px;
+font-weight:600;
 }
 details{
 padding:5px 0;
