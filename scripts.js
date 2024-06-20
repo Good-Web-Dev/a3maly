@@ -169,7 +169,7 @@ updateViewportMetaTag();
 
 window.addEventListener('resize', updateViewportMetaTag);
 
-function pwaOnlyFunction() {
+/*function pwaOnlyFunction() {
   document.querySelector('#install-app').style.display="none";
 document.querySelector('#most-prominent-contributors').style.left="-50px";
 }
@@ -181,7 +181,7 @@ function checkUrl() {
   }
 }
 
-checkUrl();
+checkUrl();*/
 
 function displayDates() {
     var today = moment();
