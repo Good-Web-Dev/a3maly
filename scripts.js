@@ -113,15 +113,12 @@ const swal = Swal.mixin({
 });
 swal.fire({
   confirmButtonText: "حسنٌ",
-  title: "تحميل التطبيق:",
+  title: "تثبيت التطبيق:",
   html: `<details dir='rtl'><summary>للآندرويد</summary>
 افتح الموقع باستخدام متصفح كروم، انقر على القائمة الجانبية ثم انقر على "إضافة إلى الصفحة الرئيسية" ثم اضغط "تثبيت".
 </details>
 <details dir='rtl'><summary>للآيفون وللآيباد</summary>
 افتح الموقع باستخدام متصفح سفاري، انقر على زر المشاركة، ثم انقر على "إضافة إلى الصفحة الرئيسية".
-</details>
-<details dir='rtl'><summary>حاسوب سطح المكتب</summary>
-افتح الموقع باستخدام متصفح كروم سيظهر في شريط العنوان زر مكتوب فيه "تثبيت التطبيق"، انقر عليه لتثبيت التطبيق.
 </details>
 `,
   iconHtml: "<i class='fa fas fa-download install-app-icon'></i>",
@@ -156,10 +153,10 @@ function updateViewportMetaTag() {
   var viewportMetaTag = document.querySelector('meta[name="viewport"]');
 
   if (screen.width <= 380) {
-    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.75');
+    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.65');
   }
 else if (screen.width <= 434) {
-    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.95');
+    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.85');
   }
  else if (screen.width >= 1000) {
     viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=1.05');
@@ -171,6 +168,20 @@ else if (screen.width <= 434) {
 updateViewportMetaTag();
 
 window.addEventListener('resize', updateViewportMetaTag);
+
+function pwaOnlyFunction() {
+  document.querySelector('#install-app').style.display="none";
+document.querySelector('#most-prominent-contributors').style.left="-50px";
+}
+
+function checkUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('on') && urlParams.get('on') === 'pwa') {
+    pwaOnlyFunction();
+  }
+}
+
+checkUrl();
 
 function displayDates() {
     var today = moment();
@@ -361,17 +372,3 @@ setTimeout(function(){
 }
 
 }
-
-function pwaOnlyFunction() {
-  document.querySelector('#install-app').style.display="none";
-document.querySelector('#most-prominent-contributors').style.left="-50px";
-}
-
-function checkUrl() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('on') && urlParams.get('on') === 'pwa') {
-    pwaOnlyFunction();
-  }
-}
-
-checkUrl();
