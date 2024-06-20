@@ -169,19 +169,16 @@ updateViewportMetaTag();
 
 window.addEventListener('resize', updateViewportMetaTag);
 
-function pwaOnlyFunction() {
+function pwaInstalledFunction() {
   document.querySelector('#install-app').style.display="none";
 document.querySelector('#most-prominent-contributors').style.left="-50px";
 }
 
-function checkUrl() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('on') && urlParams.get('on') === 'pwa') {
-    pwaOnlyFunction();
+window.addEventListener('load', () => {
+  if (navigator.serviceWorker.controller) {
+    pwaInstalledFunction();
   }
-}
-
-checkUrl();
+});
 
 function displayDates() {
     var today = moment();
