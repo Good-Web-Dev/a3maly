@@ -147,6 +147,9 @@ transition:opacity 0.3s ease-in-out;
 -webkit-transition:opacity 0.3s ease-in-out;
 cursor:pointer;
 }
+#most-prominent-contributors{
+position: relative;
+}
 .dateOfIt::after{
 content:'، إن شاء الله.';
 }
@@ -209,7 +212,7 @@ top:-3px;
 width:100px;
 position:absolute;
 top:-25px;
-left:-97px;
+left:-103px;
 }
 #loaderBox{
 position: fixed;
