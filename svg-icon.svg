@@ -1,9 +1,5 @@
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 2160.000000 2160.000000" preserveAspectRatio="xMidYMid meet">
-<style>
-svg{
-background-color:#fff;
-}
-</style>
+<rect fill="#fff" width="100%" height="100%"/>
 <g transform="translate(0.000000,2160.000000) scale(0.100000,-0.100000)" fill="#2E635A">
 <path d="M15750 14210 c-150 -77 -410 -365 -534 -592 -43 -77 -78 -205 -69
 -251 16 -84 41 -106 221 -196 78 -39 142 -77 142 -84 0 -34 -99 -90 -360 -202
