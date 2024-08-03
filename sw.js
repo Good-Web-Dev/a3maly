@@ -4,15 +4,14 @@ self.addEventListener('install', (event) => {
       .then(cache => {
         return cache.addAll([
           '/',
-          '/index.html',
-          '/styles.css',
-          '/scripts.js',
-          '/icon-transition.css',
-          '/exams.html',
-          '/assignments.html',
-          '/researches.html',
-          '/projects.html',
-          '/icon.svg'
+          'index.html',
+          'styles.css',
+          'scripts.js',
+          'icon.svg',
+          'assignments.html',
+          'exams.html',
+          'projects.html',
+          'researches.html'
         ]);
       })
   );

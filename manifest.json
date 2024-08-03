@@ -3,15 +3,21 @@
 "short_name": "أعمالي",
 "description": "موقع يختص بعرض أعمال الشعبة الثالثة عشرة في ثانوية الملك فهد، من واجبات، واختبارات، وبحوث، ومشاريع.",
 "lang": "ar",
-"start_url": "/",
+"start_url": "/a3maly/index.html?on=pwa",
 "display": "standalone",
 "theme_color": "#000000",
 "background_color": "#ffffff",
-"icons":
+"icons":[
 {
-"src": "app-icon.png",
+"src": "app-icon-512.png",
 "sizes": "512x512",
 "type": "image/png"
 },
+{
+"src": "app-icon-192.png",
+"sizes": "192x192",
+"type": "image/png"
+}
+],
 "packageName":"org.a3maly.org"
 }

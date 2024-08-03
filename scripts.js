@@ -86,11 +86,11 @@ const swal = Swal.mixin({
 });
 swal.fire({
   title: "هل أنت متأكد؟",
-  html: "<span dir='rtl'>محو البيانات المحفوظة يعني أنه سيتم إعادة وإظهار جميع الأعمال التي أتممتها أنت في الموقع.</span>",
+  html: "<span dir='rtl'>إعادة جميع الأعمال يعني أنه سيتم إظهار جميع الأعمال التي أتممتها أنت في الموقع.</span>",
   iconHtml: "<i class='fa fas fa-exclamation-triangle warning-icon'></i>",
   showCancelButton: true,
   showCloseButton: true,
-  confirmButtonText: "نعم، امحها!",
+  confirmButtonText: "نعم، أعدها!",
   cancelButtonText: "لا، ألغِ ذلك!",
   reverseButtons: true,
 }).then((result) => {
@@ -113,15 +113,12 @@ const swal = Swal.mixin({
 });
 swal.fire({
   confirmButtonText: "حسنٌ",
-  title: "تحميل التطبيق:",
+  title: "تثبيت التطبيق:",
   html: `<details dir='rtl'><summary>للآندرويد</summary>
-افتح الموقع باستخدام متصفح كروم، انقر على القائمة الجانبية ثم انقر على "تثبيت التطبيق".
+افتح الموقع باستخدام متصفح كروم، انقر على القائمة الجانبية ثم انقر على "إضافة إلى الصفحة الرئيسية" ثم اضغط "تثبيت".
 </details>
 <details dir='rtl'><summary>للآيفون وللآيباد</summary>
 افتح الموقع باستخدام متصفح سفاري، انقر على زر المشاركة، ثم انقر على "إضافة إلى الصفحة الرئيسية".
-</details>
-<details dir='rtl'><summary>حاسوب سطح المكتب</summary>
-افتح الموقع باستخدام متصفح كروم سيظهر في شريط العنوان زر مكتوب فيه "تثبيت التطبيق"، انقر عليه لتثبيت التطبيق.
 </details>
 `,
   iconHtml: "<i class='fa fas fa-download install-app-icon'></i>",
@@ -156,10 +153,10 @@ function updateViewportMetaTag() {
   var viewportMetaTag = document.querySelector('meta[name="viewport"]');
 
   if (screen.width <= 380) {
-    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.75');
+    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.65');
   }
 else if (screen.width <= 434) {
-    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.95');
+    viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=0.85');
   }
  else if (screen.width >= 1000) {
     viewportMetaTag.setAttribute('content', 'width=device-width, initial-scale=1.05');
@@ -172,6 +169,20 @@ updateViewportMetaTag();
 
 window.addEventListener('resize', updateViewportMetaTag);
 
+function pwaOnlyFunction() {
+  document.querySelector('#install-app').style.display="none";
+document.querySelector('#most-prominent-contributors').style.left="-50px";
+}
+
+function checkUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('on') && urlParams.get('on') === 'pwa') {
+    pwaOnlyFunction();
+  }
+}
+
+checkUrl();
+
 function displayDates() {
     var today = moment();
     var hijriDate = today.format('التاريخ الهجري: ' + 'iD' + ' / ' + 'iM' + ' / ' + 'iYYYY' + 'ھ');
@@ -183,16 +194,48 @@ function displayDates() {
 
 displayDates();
 
-function hideRow(button) {
-  var row = button.parentNode.parentNode;
-  localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
-  row.style.animation = "fade-out 0.5s ease-in-out";
-  setTimeout(function() {
-    row.style.display = 'none';
-  }, 500);
+function hideRow(checkbox) {
+  var row = checkbox.parentNode.parentNode;
+  if (checkbox.checked) {
+    localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
+    setTimeout(function() {
+      row.style.display = 'none';
+      row.style.opacity = '0.3';
+      row.querySelector('input[type="checkbox"]').disabled = true;
+    }, 150);
+  } else {
+    localStorage.removeItem(row.getAttribute('data-row-number'));
+    row.style.display = '';
+    row.style.animation = '';
+  }
 }
 
 function goIncludeHTML(){
+
+const selectElement = document.getElementById("select");
+  const tables2select = document.querySelectorAll('table');
+
+  selectElement.addEventListener("change", function() {
+    const selectedValue = this.value;
+for(t = 0; t < tables2select.length; t++){
+table2select = tables2select[t];
+   
+    for (let i = 1; i < table2select.rows.length; i++) {
+      const row = table2select.rows[i];
+      const firstCell = row.cells[0]; 
+
+      if (selectedValue === "" || firstCell.textContent === selectedValue) {
+        row.style.display = ""; 
+      } 
+    else if(selectedValue === "" || firstCell.textContent === "المادة"){
+        row.style.display = "";
+    }
+    else {
+        row.style.display = "none"; 
+      }
+    }
+}
+  });
 
 const workTr = document.querySelectorAll('.work-tr');
 
@@ -257,16 +300,19 @@ checkExpiration();
 setInterval(checkExpiration, 1000);
 
   workTr.forEach((row, index) => {
-    row.setAttribute('data-row-number', index + 1);
-    row.querySelector('button').addEventListener('click', function() {
-      hideRow(this);
-    });
-
-    var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
-    if (rowState === 'hidden') {
-      row.style.display = 'none';
-    }
+  row.setAttribute('data-row-number', index + 1);
+  row.querySelector('input[type="checkbox"]').addEventListener('change', function() {
+    hideRow(this);
   });
+
+  var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
+  if (rowState === 'hidden') {
+    row.style.opacity = '0.3';
+    row.style.display = 'none';
+    row.querySelector('input[type="checkbox"]').checked = true;
+    row.querySelector('input[type="checkbox"]').disabled = true;
+  }
+});
 
 function sortRows(table) {
     var rows = Array.from(table.getElementsByTagName('tr'));
@@ -350,14 +396,15 @@ hideEndedRows.addEventListener('click', function () {
 });
 
 function hideRows() {
-    rows.forEach(row => {
-        row.style.animation="fade-out 0.5s ease-in-out"
-setTimeout(function(){
-        row.style.display = 'none';
-}, 500);
-    });
-    hideEndedRows.dataset.state = 'hidden';
-    localStorage.setItem('endedRowsState', 'hidden');
+  rows.forEach(row => {
+    setTimeout(() => {
+      row.style.display = 'none';
+      row.style.opacity = '0.3';
+      row.querySelector('input[type="checkbox"]').disabled = true;
+    }, 0);
+  });
+  hideEndedRows.dataset.state = 'hidden';
+  localStorage.setItem('endedRowsState', 'hidden');
 }
 
 }
