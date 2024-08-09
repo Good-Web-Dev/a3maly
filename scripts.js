@@ -200,7 +200,8 @@ function hideRow(checkbox) {
     localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
     setTimeout(function() {
       row.style.display = 'none';
-      row.style.opacity = '0.3';
+      row.style.opacity = '0.5';
+      row.style.filter = 'grayscale(1)';
       row.querySelector('input[type="checkbox"]').disabled = true;
     }, 150);
   } else {
@@ -254,7 +255,7 @@ function checkExpiration() {
         nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة!', 'تبقى عليه أقل من ساعة!'];
         endedText = 'انتهى.';
         if(document.querySelector('.exams').contains(row)) {
-            startedText = 'لم يبدأ بعد.';
+            startedText = 'لم يُختبَر بعد.';
         } else {
             startedText = 'بدأ.';
         }
@@ -307,7 +308,8 @@ setInterval(checkExpiration, 1000);
 
   var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
   if (rowState === 'hidden') {
-    row.style.opacity = '0.3';
+    row.style.opacity = '0.5';
+    row.style.filter = 'grayscale(1)';
     row.style.display = 'none';
     row.querySelector('input[type="checkbox"]').checked = true;
     row.querySelector('input[type="checkbox"]').disabled = true;
@@ -399,7 +401,8 @@ function hideRows() {
   rows.forEach(row => {
     setTimeout(() => {
       row.style.display = 'none';
-      row.style.opacity = '0.3';
+      row.style.opacity = '0.5';
+      row.style.filter = 'grayscale(1)';
       row.querySelector('input[type="checkbox"]').disabled = true;
     }, 0);
   });
