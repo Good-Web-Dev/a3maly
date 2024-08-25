@@ -162,9 +162,6 @@ cursor:pointer;
 #most-prominent-contributors{
 position: relative;
 }
-.dateOfIt::after{
-content:'، إن شاء الله.';
-}
 .marquee{
 font-family: helvetica-world-bold;
 font-size: 18px;
