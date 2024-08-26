@@ -204,8 +204,10 @@ displayDates();
 
 function hideRow(checkbox) {
   var row = checkbox.parentNode.parentNode;
+  var rowId = row.getAttribute('data-row-id'); // Get data-row-id
+
   if (checkbox.checked) {
-    localStorage.setItem(row.getAttribute('data-row-number'), 'hidden');
+    localStorage.setItem(rowId, 'hidden'); // Use rowId for localStorage
     setTimeout(function() {
       row.style.display = 'none';
       row.style.opacity = '0.5';
@@ -213,7 +215,7 @@ function hideRow(checkbox) {
       row.querySelector('input[type="checkbox"]').disabled = true;
     }, 150);
   } else {
-    localStorage.removeItem(row.getAttribute('data-row-number'));
+    localStorage.removeItem(rowId); // Use rowId for localStorage
     row.style.display = '';
     row.style.animation = '';
   }
@@ -221,201 +223,202 @@ function hideRow(checkbox) {
 
 function goIncludeHTML(){
 
-const selectElement = document.getElementById("select");
-  const tables2select = document.querySelectorAll('table');
-
-  selectElement.addEventListener("change", function() {
-    const selectedValue = this.value;
-for(t = 0; t < tables2select.length; t++){
-table2select = tables2select[t];
-   
-    for (let i = 1; i < table2select.rows.length; i++) {
-      const row = table2select.rows[i];
-      const firstCell = row.cells[0]; 
-
-      if (selectedValue === "" || firstCell.textContent === selectedValue) {
-        row.style.display = ""; 
-      } 
-    else if(selectedValue === "" || firstCell.textContent === "المادة"){
-        row.style.display = "";
-    }
-    else {
-        row.style.display = "none"; 
+  const selectElement = document.getElementById("select");
+    const tables2select = document.querySelectorAll('table');
+  
+    selectElement.addEventListener("change", function() {
+      const selectedValue = this.value;
+  for(t = 0; t < tables2select.length; t++){
+  table2select = tables2select[t];
+     
+      for (let i = 1; i < table2select.rows.length; i++) {
+        const row = table2select.rows[i];
+        const firstCell = row.cells[0]; 
+  
+        if (selectedValue === "" || firstCell.textContent === selectedValue) {
+          row.style.display = ""; 
+        } 
+      else if(selectedValue === "" || firstCell.textContent === "المادة"){
+          row.style.display = "";
       }
-    }
-}
-  });
-
-const workTr = document.querySelectorAll('.work-tr');
-
-var timeInMS = {
-    day: 60 * 60 * 24 * 1000,
-    hour: 60 * 60 * 1000
-}
-
-function checkExpiration() {
-    const currentDate = new Date();
-
-    workTr.forEach(row => {
-        const expireDate = new Date(row.getAttribute('data-expire'));
-
-                var startedText, nearExpiryText, endedText;
-        nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة!', 'تبقى عليه أقل من ساعة!'];
-        endedText = 'انتهى.';
-        if(document.querySelector('.exams').contains(row)) {
-            startedText = 'لم يُختبَر بعد.';
-        } else {
-            startedText = 'بدأ.';
+      else {
+          row.style.display = "none"; 
         }
-
-        if(currentDate > expireDate) {
-            row.classList.add('expired');
-            row.classList.remove('near-expiry');
-            row.querySelector('.status').textContent = endedText;
-            row.setAttribute('data-status', 'ended');
-        }
-else if(expireDate - currentDate == timeInMS.hour) {
-            row.classList.add('near-expiry');
-            row.classList.remove('expired');
-            row.querySelector('.status').textContent = nearExpiryText[2];
-            row.setAttribute('data-status', 'near-expiry');
-        } else if(expireDate - currentDate < timeInMS.hour) {
-            row.classList.add('near-expiry');
-            row.classList.remove('expired');
-            row.querySelector('.status').textContent = nearExpiryText[3];
-            row.setAttribute('data-status', 'near-expiry');
-        }
-else if(expireDate - currentDate == timeInMS.day) {
-            row.classList.add('near-expiry');
-            row.classList.remove('expired');
-            row.querySelector('.status').textContent = nearExpiryText[0];
-            row.setAttribute('data-status', 'near-expiry');
-        } else if(expireDate - currentDate < timeInMS.day) {
-            row.classList.add('near-expiry');
-            row.classList.remove('expired');
-            row.querySelector('.status').textContent = nearExpiryText[1];
-            row.setAttribute('data-status', 'near-expiry');
-        } else {
-            row.classList.remove('near-expiry');
-            row.classList.remove('expired');
-            row.querySelector('.status').textContent = startedText;
-            row.setAttribute('data-status', 'started');
-        }
-    });
-}
-
-checkExpiration();
-
-setInterval(checkExpiration, 1000);
-
-  workTr.forEach((row, index) => {
-  row.setAttribute('data-row-number', index + 1);
-  row.querySelector('input[type="checkbox"]').addEventListener('change', function() {
-    hideRow(this);
-  });
-
-  var rowState = localStorage.getItem(row.getAttribute('data-row-number'));
-  if (rowState === 'hidden') {
-    row.style.opacity = '0.5';
-    row.style.filter = 'grayscale(1)';
-    row.style.display = 'none';
-    row.querySelector('input[type="checkbox"]').checked = true;
-    row.querySelector('input[type="checkbox"]').disabled = true;
+      }
   }
-});
-
-function sortRows(table) {
-    var rows = Array.from(table.getElementsByTagName('tr'));
-
-    var rowsToSort = rows.slice(2);
-
-    var rowsWithDataStatus = [];
-    var rowsWithoutDataStatus = [];
-
-    rowsToSort.forEach(function(row) {
-        if(row.hasAttribute('data-status')) {
-            rowsWithDataStatus.push(row);
-        } else {
-            rowsWithoutDataStatus.push(row);
-        }
     });
-
-    rowsWithDataStatus.sort(function(row1, row2) {
-        var status1 = row1.getAttribute('data-status');
-        var status2 = row2.getAttribute('data-status');
-
-        if(status1 !== status2) {
-            if(status1 === 'near-expiry') {
-                return -1;
-            } else if(status2 === 'near-expiry') {
-                return 1;
-            } else if(status1 === 'started') {
-                return -1;
-            } else if(status2 === 'started') {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-
-        var expire1 = new Date(row1.getAttribute('data-expire'));
-        var expire2 = new Date(row2.getAttribute('data-expire'));
-
-        if(expire1 < expire2) {
-            return -1;
-        } else if(expire1 > expire2) {
-            return 1;
-        } else {
-            return 0;
-        }
+  
+  const workTr = document.querySelectorAll('.work-tr');
+  
+  var timeInMS = {
+      day: 60 * 60 * 24 * 1000,
+      hour: 60 * 60 * 1000
+  }
+  
+  function checkExpiration() {
+      const currentDate = new Date();
+  
+      workTr.forEach(row => {
+          const expireDate = new Date(row.getAttribute('data-expire'));
+  
+                  var startedText, nearExpiryText, endedText;
+          nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة!', 'تبقى عليه أقل من ساعة!'];
+          endedText = 'انتهى.';
+          if(document.querySelector('.exams').contains(row)) {
+              startedText = 'لم يُختبَر بعد.';
+          } else {
+              startedText = 'بدأ.';
+          }
+  
+          if(currentDate > expireDate) {
+              row.classList.add('expired');
+              row.classList.remove('near-expiry');
+              row.querySelector('.status').textContent = endedText;
+              row.setAttribute('data-status', 'ended');
+          }
+  else if(expireDate - currentDate == timeInMS.hour) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[2];
+              row.setAttribute('data-status', 'near-expiry');
+          } else if(expireDate - currentDate < timeInMS.hour) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[3];
+              row.setAttribute('data-status', 'near-expiry');
+          }
+  else if(expireDate - currentDate == timeInMS.day) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[0];
+              row.setAttribute('data-status', 'near-expiry');
+          } else if(expireDate - currentDate < timeInMS.day) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[1];
+              row.setAttribute('data-status', 'near-expiry');
+          } else {
+              row.classList.remove('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = startedText;
+              row.setAttribute('data-status', 'started');
+          }
+      });
+  }
+  
+  checkExpiration();
+  
+  setInterval(checkExpiration, 1000);
+  
+  workTr.forEach(row => { 
+    // Assuming data-row-id is already set in your HTML
+    row.querySelector('input[type="checkbox"]').addEventListener('change', function() {
+      hideRow(this);
     });
-
-    while(table.firstChild) {
-        table.removeChild(table.firstChild);
-    }
-
-    for(var i = 0; i < 2; i++) {
-        table.appendChild(rows[i]);
-    }
-
-    rowsWithDataStatus.forEach(function(row) {
-        table.appendChild(row);
-    });
-
-    rowsWithoutDataStatus.forEach(function(row) {
-        table.appendChild(row);
-    });
-}
-
-var tables = document.querySelectorAll('.exams, .assignments, .researches, .projects');
-
-tables.forEach(function(table) {
-    sortRows(table);
-});
-
-const hideEndedRows = document.getElementById('hide-ended-rows');
-const rows = document.querySelectorAll('tr[data-status="ended"]');
-
-const endedRowsState = localStorage.getItem('endedRowsState');
-if (endedRowsState && endedRowsState === 'hidden') {
-    hideRows();
-}
-
-hideEndedRows.addEventListener('click', function () {
-        hideRows();
-});
-
-function hideRows() {
-  rows.forEach(row => {
-    setTimeout(() => {
-      row.style.display = 'none';
+  
+    var rowId = row.getAttribute('data-row-id'); // Get data-row-id
+    var rowState = localStorage.getItem(rowId); // Use rowId for localStorage
+    if (rowState === 'hidden') {
       row.style.opacity = '0.5';
       row.style.filter = 'grayscale(1)';
+      row.style.display = 'none';
+      row.querySelector('input[type="checkbox"]').checked = true;
       row.querySelector('input[type="checkbox"]').disabled = true;
-    }, 0);
+    }
   });
-  hideEndedRows.dataset.state = 'hidden';
-  localStorage.setItem('endedRowsState', 'hidden');
-}
+  
+  function sortRows(table) {
+      var rows = Array.from(table.getElementsByTagName('tr'));
+  
+      var rowsToSort = rows.slice(2);
+  
+      var rowsWithDataStatus = [];
+      var rowsWithoutDataStatus = [];
+  
+      rowsToSort.forEach(function(row) {
+          if(row.hasAttribute('data-status')) {
+              rowsWithDataStatus.push(row);
+          } else {
+              rowsWithoutDataStatus.push(row);
+          }
+      });
+  
+      rowsWithDataStatus.sort(function(row1, row2) {
+          var status1 = row1.getAttribute('data-status');
+          var status2 = row2.getAttribute('data-status');
+  
+          if(status1 !== status2) {
+              if(status1 === 'near-expiry') {
+                  return -1;
+              } else if(status2 === 'near-expiry') {
+                  return 1;
+              } else if(status1 === 'started') {
+                  return -1;
+              } else if(status2 === 'started') {
+                  return 1;
+              } else {
+                  return 0;
+              }
+          }
+  
+          var expire1 = new Date(row1.getAttribute('data-expire'));
+          var expire2 = new Date(row2.getAttribute('data-expire'));
+  
+          if(expire1 < expire2) {
+              return -1;
+          } else if(expire1 > expire2) {
+              return 1;
+          } else {
+              return 0;
+          }
+      });
+  
+      while(table.firstChild) {
+          table.removeChild(table.firstChild);
+      }
+  
+      for(var i = 0; i < 2; i++) {
+          table.appendChild(rows[i]);
+      }
+  
+      rowsWithDataStatus.forEach(function(row) {
+          table.appendChild(row);
+      });
+  
+      rowsWithoutDataStatus.forEach(function(row) {
+          table.appendChild(row);
+      });
+  }
+  
+  var tables = document.querySelectorAll('.exams, .assignments, .researches, .projects');
+  
+  tables.forEach(function(table) {
+      sortRows(table);
+  });
+  
+  const hideEndedRows = document.getElementById('hide-ended-rows');
+  const rows = document.querySelectorAll('tr[data-status="ended"]');
+  
+  const endedRowsState = localStorage.getItem('endedRowsState');
+  if (endedRowsState && endedRowsState === 'hidden') {
+      hideRows();
+  }
+  
+  hideEndedRows.addEventListener('click', function () {
+          hideRows();
+  });
+  
+  function hideRows() {
+    rows.forEach(row => {
+      setTimeout(() => {
+        row.style.display = 'none';
+        row.style.opacity = '0.5';
+        row.style.filter = 'grayscale(1)';
+        row.querySelector('input[type="checkbox"]').disabled = true;
+      }, 0);
+    });
+    hideEndedRows.dataset.state = 'hidden';
+    localStorage.setItem('endedRowsState', 'hidden');
+  }
 
 }
