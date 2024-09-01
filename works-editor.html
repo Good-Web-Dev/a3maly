@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<title>صفحة تحرير الأعمال</title>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=0.90"/>
+<style>
+*{
+font-family: 'Cairo', sans-serif;
+-webkit-tap-highlight-color: transparent;
+font-weight:600;
+}
+body {
+font-family: 'Cairo', sans-serif;
+direction: rtl;
+text-align: right;
+margin: 20px;
+background-color: #f4f4f4;
+}
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+input,
+textarea,
+select {
+width: 100%;
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+button {
+background-color: #2E635A;
+color: white;
+padding: 5px 10px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 16px;
+}
+button:hover {
+filter:brightness(1.2);
+}
+p {
+margin-top: 20px;
+min-height:180px;
+padding: 5px;
+border: 1px solid #ccc;
+border-radius: 4px;
+background-color: #fff;
+cursor: pointer;
+}
+p:hover {
+background-color: #e9e9e9;
+}
+select {
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='%23333' d='M4 7l4 4 4-4z'/><path fill='none' d='M0 0h16v16H0z'/></svg>");
+background-repeat: no-repeat;
+background-position: left 10px center;
+padding-right: 10px;
+background-color:#fff;
+}
+input[type="datetime-local"] {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+padding-left:10px;
+background-color:#fff;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+background: transparent;
+cursor: pointer;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator::after {
+content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path fill='%23333' d='M8 12.5l-4-4 4-4 4 4-4 4z'/><path fill='none' d='M0 0h16v16H0z'/></svg>");
+}
+input:focus,
+textarea:focus,
+select:focus{
+outline:#2E635A 3px solid;
+}
+</style>
+</head>
+<body>
+<label for="datetime">أدخل تاريخ ووقت انتهاء العمل:</label>
+<input type="datetime-local" id="datetime" name="datetime" dir="ltr">
+<br>
+<label for="rowIdInput">أدخل معرف العمل:</label>
+<input type="text" id="rowIdInput" name="rowIdInput" dir="ltr">
+<br>
+<label for="subject">اختر المادة:</label>
+<select id="subject" class="select-css">
+<option value="البحث ومصادر المعلومات">البحث ومصادر المعلومات</option>
+<option value="الجغرافيا">الجغرافيا</option>
+<option value="الكتابة الوظيفية والإبداعية">الكتابة الوظيفية والإبداعية</option>
+<option value="الكيمياء">الكيمياء</option>
+<option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+<option value="الرياضيات">الرياضيات</option>
+<option value="التقنية الرقمية">التقنية الرقمية</option>
+<option value="الفيزياء">الفيزياء</option>
+</select>
+<br>
+<label for="titleInput">أدخل نوع العمل:</label>
+<input type="text" id="titleInput" name="titleInput">
+<br>
+<label for="content">أدخل وصف العمل:</label>
+<textarea id="content" name="content" cols="40" rows="5" dir="ltr"></textarea>
+<br>
+<label for="dateOfItInput">أدخل موعد العمل:</label>
+<textarea id="dateOfItInput" name="dateOfItInput" cols="40" rows="3"></textarea>
+<button onclick="giveTheTr()">أخذ العمل</button>
+<p id="theTr" onclick="copyText(this)" dir="ltr"></p>
+
+<script>
+function giveTheTr(){
+const subject = document.getElementById("subject").value;
+const dateTimeInput = document.getElementById('datetime');
+const dateTimeValue = dateTimeInput.value;
+
+const dateObj = new Date(dateTimeValue);
+
+var formattedDateTime = dateObj.getFullYear() + '-' +
+(dateObj.getMonth() + 1).toString().padStart(2, '0') + '-' +
+dateObj.getDate().toString().padStart(2, '0') + 'T' +
+dateObj.getHours().toString().padStart(2, '0') + ':' +
+dateObj.getMinutes().toString().padStart(2, '0') + ':' +
+dateObj.getSeconds().toString().padStart(2, '0');
+
+if(dateTimeValue === ''){
+formattedDateTime = '';
+}
+
+const dataRowId = document.getElementById("rowIdInput").value;
+const title = document.getElementById("titleInput").value;
+const content = document.getElementById("content").value;
+const dateOfIt = document.getElementById("dateOfItInput").value;
+
+document.getElementById('theTr').textContent = `<!-- **********  ********** -->
+<tr class="work-tr" data-expire="${formattedDateTime}" data-row-id="${dataRowId}">
+<td>${subject}</td>
+<td>${title}</td>
+<td>
+${content}
+</td>
+<td class="dateOfIt">${dateOfIt}</td>
+<td class="status"></td>
+<td><input type="checkbox" onchange="hideRow(this)"></td>
+</tr>`;
+}
+
+function copyText(element) {
+navigator.clipboard.writeText(element.textContent)
+.then(() => {
+element.style.backgroundColor = '#2E635A44';
+setTimeout(() => {
+element.style.backgroundColor = '';
+}, 500);
+})
+.catch(err => {
+console.error("Failed to copy: ", err);
+});
+}
+</script>
+</body>
+</html>
