@@ -392,7 +392,7 @@ function goIncludeHTML(){
       });
   }
   
-  var tables = document.querySelectorAll('.exams, .assignments, .researches, .projects');
+  var tables = document.querySelectorAll('.exams, .assignments, .researches, .projects, .others');
   
   tables.forEach(function(table) {
       sortRows(table);
