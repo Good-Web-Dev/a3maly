@@ -206,10 +206,10 @@ displayDates();
 
 function hideRow(checkbox) {
   var row = checkbox.parentNode.parentNode;
-  var rowId = row.getAttribute('data-row-id'); // Get data-row-id
+  var rowId = row.getAttribute('data-row-id');
 
   if (checkbox.checked) {
-    localStorage.setItem(rowId, 'hidden'); // Use rowId for localStorage
+    localStorage.setItem(rowId, 'hidden'); 
     setTimeout(function() {
       row.style.display = 'none';
       row.style.opacity = '0.5';
@@ -217,7 +217,7 @@ function hideRow(checkbox) {
       row.querySelector('input[type="checkbox"]').disabled = true;
     }, 150);
   } else {
-    localStorage.removeItem(rowId); // Use rowId for localStorage
+    localStorage.removeItem(rowId);
     row.style.display = '';
     row.style.animation = '';
   }
@@ -254,6 +254,7 @@ function goIncludeHTML(){
   
   var timeInMS = {
       day: 60 * 60 * 24 * 1000,
+      halfADay: 60 * 60 * 12 * 1000,
       hour: 60 * 60 * 1000
   }
   
@@ -264,7 +265,7 @@ function goIncludeHTML(){
           const expireDate = new Date(row.getAttribute('data-expire'));
   
                   var startedText, nearExpiryText, endedText;
-          nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة!', 'تبقى عليه أقل من ساعة!'];
+          nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة فقط!', 'تبقى عليه أقل من ساعة!', 'تبقى عليه ١٢ ساعة فقط!', 'تبقى عليه أقل من ١٢ ساعة!'];
           endedText = 'انتهى.';
           if(document.querySelector('.exams').contains(row)) {
               startedText = 'لم يُختبَر بعد.';
@@ -287,6 +288,17 @@ function goIncludeHTML(){
               row.classList.add('near-expiry');
               row.classList.remove('expired');
               row.querySelector('.status').textContent = nearExpiryText[3];
+              row.setAttribute('data-status', 'near-expiry');
+          }
+else if(expireDate - currentDate == timeInMS.halfADay) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[4];
+              row.setAttribute('data-status', 'near-expiry');
+          } else if(expireDate - currentDate < timeInMS.halfADay) {
+              row.classList.add('near-expiry');
+              row.classList.remove('expired');
+              row.querySelector('.status').textContent = nearExpiryText[5];
               row.setAttribute('data-status', 'near-expiry');
           }
   else if(expireDate - currentDate == timeInMS.day) {
@@ -313,13 +325,13 @@ function goIncludeHTML(){
   setInterval(checkExpiration, 1000);
   
   workTr.forEach(row => { 
-    // Assuming data-row-id is already set in your HTML
+
     row.querySelector('input[type="checkbox"]').addEventListener('change', function() {
       hideRow(this);
     });
   
-    var rowId = row.getAttribute('data-row-id'); // Get data-row-id
-    var rowState = localStorage.getItem(rowId); // Use rowId for localStorage
+    var rowId = row.getAttribute('data-row-id'); 
+    var rowState = localStorage.getItem(rowId); 
     if (rowState === 'hidden') {
       row.style.opacity = '0.5';
       row.style.filter = 'grayscale(1)';
