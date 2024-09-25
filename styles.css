@@ -391,3 +391,7 @@ color:#7066E0;
 border:4px #7066E0 solid;
 padding:20px 16px;
 }
+
+.highlighted {
+filter: hue-rotate(80deg);
+}

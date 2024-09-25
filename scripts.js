@@ -195,6 +195,24 @@ function checkUrl() {
 
 checkUrl();
 
+function highlightRow() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const rowId = urlParams.get('rowId');
+
+  if (rowId) {
+    const row = document.getElementById(rowId);
+    if (row) {
+      row.classList.add('highlighted');
+
+      row.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.error(`Row with ID "${rowId}" not found.`);
+    }
+  }
+}
+
+window.addEventListener('load', highlightRow);
+
 function displayDates() {
     var today = moment();
     var hijriDate = today.format('التاريخ الهجري: ' + 'iD' + ' / ' + 'iM' + ' / ' + 'iYYYY' + 'ھ');
@@ -226,6 +244,11 @@ function hideRow(checkbox) {
 }
 
 function goIncludeHTML(){
+
+var a = document.querySelectorAll("a");
+for(let i = 0; i < a.length; i += 1){
+a[i].setAttribute('target', '_blank');
+}
 
   const selectElement = document.getElementById("select");
     const tables2select = document.querySelectorAll('table');
