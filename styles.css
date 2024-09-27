@@ -392,6 +392,13 @@ border:4px #7066E0 solid;
 padding:20px 16px;
 }
 
-.highlighted {
-filter: hue-rotate(80deg);
+.highlighted{
+animation: flash 0.75s ease-in-out;
+animation-iteration-count: 3;
+}
+
+@keyframes flash {
+50%{
+background-color: white;
+}
 }

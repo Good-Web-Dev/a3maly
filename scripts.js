@@ -150,9 +150,15 @@ swal.fire({
 <br>
 ✯ سليمان خليل.
 <br>
+✯ عبدالرحمن المطيري.
+<br>
 ✯ عبدالعزيز القحطاني.
 <br>
 ✯ عيد العتيبي.
+<br>
+✯ محمد التركي.
+<br>
+✯ محمد الجبالي.
 <br><br>
 <span dir='rtl' style='font-weight: 500;'>جزى الله الجميع خيرًا.</span>
 </span>`,
@@ -195,24 +201,6 @@ function checkUrl() {
 
 checkUrl();
 
-function highlightRow() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const rowId = urlParams.get('rowId');
-
-  if (rowId) {
-    const row = document.getElementById(rowId);
-    if (row) {
-      row.classList.add('highlighted');
-
-      row.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      console.error(`Row with ID "${rowId}" not found.`);
-    }
-  }
-}
-
-window.addEventListener('load', highlightRow);
-
 function displayDates() {
     var today = moment();
     var hijriDate = today.format('التاريخ الهجري: ' + 'iD' + ' / ' + 'iM' + ' / ' + 'iYYYY' + 'ھ');
@@ -244,6 +232,25 @@ function hideRow(checkbox) {
 }
 
 function goIncludeHTML(){
+
+  function highlightRow(rowId) {
+    const row = document.querySelector(`tr[data-row-id="${rowId}"]`);
+    if (row) {
+      row.classList.add('highlighted');
+      row.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.warn(`Row with ID "${rowId}" not found.`);
+    }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const rowIdToHighlight = urlParams.get('rowId');
+
+  setTimeout(() => {
+    if (rowIdToHighlight) {
+      highlightRow(rowIdToHighlight);
+    }
+  }, 1000);
 
 var a = document.querySelectorAll("a");
 for(let i = 0; i < a.length; i += 1){
