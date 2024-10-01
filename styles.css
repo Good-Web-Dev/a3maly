@@ -399,6 +399,6 @@ animation-iteration-count: 3;
 
 @keyframes flash {
 50%{
-background-color: white;
+background-color: cornflowerblue;
 }
 }
