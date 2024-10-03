@@ -160,7 +160,7 @@ swal.fire({
 <br>
 ✯ محمد الجبالي.
 <br><br>
-<span dir='rtl' style='font-weight: 500;'>جزى الله الجميع خيرًا.</span>
+<span dir='rtl' style='font-weight: 600;'>جزى الله الجميع خيرًا.</span>
 </span>`,
   iconHtml: "<i class='fa fas fa-star star-icon'></i>",
   showCloseButton: true,
@@ -233,6 +233,107 @@ function hideRow(checkbox) {
 
 function goIncludeHTML(){
 
+function pluralize(count, singular, dual, plural, singplural) {
+    if (count === 0) return "";
+    if (count === 1) return `${singular}`;
+    if (count === 2) return `${dual}`;
+    if (count > 10) return `${count.toLocaleString('ar-SA')} ${singplural}`;
+    return `${count.toLocaleString('ar-SA')} ${plural}`;
+}
+
+function updateCountdown() {
+    const now = moment();
+
+    // Select all rows with countdowns
+    const rows = document.querySelectorAll('tr[data-expire]');
+    rows.forEach(row => {
+        const expireDateString = row.getAttribute('data-expire');
+        const tdElement = row.querySelector('.dateOfIt');
+
+        // Check if data-expire is empty or expired
+        if (!expireDateString) {
+            // If empty, ensure td content is not changed
+            return; // Skip to the next row
+        }
+
+        const expireDate = moment(expireDateString, "YYYY-MM-DD HH:mm:ss");
+
+        // If the expiration date is in the past, keep original content
+        if (now > expireDate) {
+            return; // Skip to the next row
+        }
+
+        let detailsElement = tdElement.querySelector('details');
+
+        // Create details element if it doesn't exist
+        if (!detailsElement) {
+            detailsElement = document.createElement('details');
+            const summaryElement = document.createElement('summary');
+            
+            // Remove the last character (dot) from the text if it exists
+            const originalText = tdElement.textContent.trim();
+            const summaryText = originalText.endsWith('.') ? originalText.slice(0, -1) : originalText;
+
+            summaryElement.textContent = summaryText; // Set summary text
+            detailsElement.appendChild(summaryElement);
+
+            const countdownContent = document.createElement('div');
+            countdownContent.classList.add('countdown-content'); // Set class for countdown content
+            detailsElement.appendChild(countdownContent); // Add div for countdown
+
+            tdElement.innerHTML = ''; // Clear original content
+            tdElement.appendChild(detailsElement); // Append details to td
+        }
+
+        const countdownContent = detailsElement.querySelector('.countdown-content');
+
+        if (!expireDate.isValid()) {
+            countdownContent.textContent = "⌧⌧⌧";
+            return;
+        }
+
+        const duration = moment.duration(expireDate.diff(now));
+        const days = duration.days();
+        const hours = duration.hours();
+        const minutes = duration.minutes();
+        const seconds = duration.seconds();
+
+        const daysStr = pluralize(days, "يوم", "يومين", "أيام", "يوم");
+        const hoursStr = pluralize(hours, "ساعة", "ساعتين", "ساعات", "ساعة");
+        const minutesStr = pluralize(minutes, "دقيقة", "دقيقتين", "دقائق", "دقيقة");
+        const secondsStr = pluralize(seconds, "ثانية", "ثانيتين", "ثوانٍ", "ثانية");
+
+if(seconds == '0'){
+        countdownContent.textContent = `
+تبقى: ${daysStr} و${hoursStr} و${minutesStr}. ${secondsStr}
+`;
+}
+else if(minutes == '0'){
+        countdownContent.textContent = `
+تبقى: ${daysStr} و${hoursStr} ${minutesStr} و${secondsStr}.
+`;
+}
+else if(hours == '0'){
+        countdownContent.textContent = `
+تبقى: ${daysStr} ${hoursStr} و${minutesStr} و${secondsStr}.
+`;
+}
+else if(days == '0'){
+        countdownContent.textContent = `
+تبقى: ${daysStr} ${hoursStr} و${minutesStr} و${secondsStr}.
+`;
+}
+else{
+        countdownContent.textContent = `
+تبقى: ${daysStr} و${hoursStr} و${minutesStr} و${secondsStr}.
+`;
+}
+    });
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
   function highlightRow(rowId) {
     const row = document.querySelector(`tr[data-row-id="${rowId}"]`);
     if (row) {
@@ -241,7 +342,7 @@ function goIncludeHTML(){
     } else {
       console.warn(`Row with ID "${rowId}" not found.`);
     }
-  }
+  }    
 
   const urlParams = new URLSearchParams(window.location.search);
   const rowIdToHighlight = urlParams.get('rowId');
@@ -297,7 +398,7 @@ a[i].setAttribute('target', '_blank');
           const expireDate = new Date(row.getAttribute('data-expire'));
   
                   var startedText, nearExpiryText, endedText;
-          nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة فقط!', 'تبقى عليه أقل من ساعة!', 'تبقى عليه ١٢ ساعة فقط!', 'تبقى عليه أقل من ١٢ ساعة!'];
+          nearExpiryText = ['تبقى عليه يوم واحد فقط!', 'تبقى عليه أقل من يوم!', 'تبقى عليه ساعة واحدة فقط!', 'تبقى عليه أقل من ساعة!'];
           endedText = 'انتهى.';
           if(document.querySelector('.exams').contains(row)) {
               startedText = 'لم يُختبَر بعد.';
@@ -320,17 +421,6 @@ a[i].setAttribute('target', '_blank');
               row.classList.add('near-expiry');
               row.classList.remove('expired');
               row.querySelector('.status').textContent = nearExpiryText[3];
-              row.setAttribute('data-status', 'near-expiry');
-          }
-else if(expireDate - currentDate == timeInMS.halfADay) {
-              row.classList.add('near-expiry');
-              row.classList.remove('expired');
-              row.querySelector('.status').textContent = nearExpiryText[4];
-              row.setAttribute('data-status', 'near-expiry');
-          } else if(expireDate - currentDate < timeInMS.halfADay) {
-              row.classList.add('near-expiry');
-              row.classList.remove('expired');
-              row.querySelector('.status').textContent = nearExpiryText[5];
               row.setAttribute('data-status', 'near-expiry');
           }
   else if(expireDate - currentDate == timeInMS.day) {
