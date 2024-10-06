@@ -298,10 +298,10 @@ function updateCountdown() {
         const minutes = duration.minutes();
         const seconds = duration.seconds();
 
-        const daysStr = pluralize(days, "يوم", "يومين", "أيام", "يوم");
-        const hoursStr = pluralize(hours, "ساعة", "ساعتين", "ساعات", "ساعة");
-        const minutesStr = pluralize(minutes, "دقيقة", "دقيقتين", "دقائق", "دقيقة");
-        const secondsStr = pluralize(seconds, "ثانية", "ثانيتين", "ثوانٍ", "ثانية");
+        const daysStr = pluralize(days, "يوم", "يومان", "أيام", "يوم");
+        const hoursStr = pluralize(hours, "ساعة", "ساعتان", "ساعات", "ساعة");
+        const minutesStr = pluralize(minutes, "دقيقة", "دقيقتان", "دقائق", "دقيقة");
+        const secondsStr = pluralize(seconds, "ثانية", "ثانيتان", "ثوانٍ", "ثانية");
 
 if(seconds == '0'){
         countdownContent.textContent = `
