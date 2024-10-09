@@ -14,6 +14,9 @@ background:gray;
 br, img{
 user-select: none;
 }
+b{
+font-weight: 700;
+}
 *{
 padding:0;
 margin:0;
