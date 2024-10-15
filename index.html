@@ -146,7 +146,103 @@ l59 -18 -7 -220 c-4 -121 -8 -220 -9 -221 -2 -2 -169 44 -927 256 -58 16 -170
 
 </p>
 </div>
+<br>
+<!-- ############ -->
+<style>
+#bruh {
+  transition: opacity 0.5s ease-in-out; 
+}
 
+#bruh.fade-out {
+  opacity: 0;
+}
+
+#bruh.fade-in {
+  opacity: 1;
+}
+</style>
+<p style="text-align: center; color: darkred; width:95%; margin: auto;">
+<i class="fas fa fa-exclamation-triangle"></i>
+<span style="font-weight: 700; color:darkred; font-size:12px; text-align: center;" id="bruh">
+إعلان هام: رفع الأعمال متوقف، وآخر تحديث للأعمال بتاريخ: ٩ / ٤ / ١٤٤٦ھ.
+</span>
+<i class="fas fa fa-exclamation-triangle"></i>
+</p>
+<script>
+const translations = {
+  "ar": "إعلان هام: رفع الأعمال متوقف، وآخر تحديث للأعمال بتاريخ: ٩ / ٤ / ١٤٤٦ هـ.",
+  "ur": "اہم اعلان: کاموں کو اپ لوڈ کرنا معطل کر دیا گیا ہے، اور کاموں کی آخری تازہ کاری 9 / 4 / 1446 کو ہوئی تھی۔",
+  "en": "Important announcement: Uploading of works is suspended, and the last update of works was on: 9 / 4 / 1446 AH.",
+  "es": "Aviso importante: La carga de trabajos está suspendida, y la última actualización de trabajos fue el: 9 / 4 / 1446 AH.",
+  "fr": "Annonce importante : Le téléchargement d'œuvres est suspendu, et la dernière mise à jour des œuvres était le : 9 / 4 / 1446 AH.",
+  "de": "Wichtige Ankündigung: Das Hochladen von Werken ist ausgesetzt, und die letzte Aktualisierung der Werke war am: 9 / 4 / 1446 AH.",
+  "it": "Annuncio importante: Il caricamento delle opere è sospeso, e l'ultimo aggiornamento delle opere è stato il: 9 / 4 / 1446 AH.",
+  "pt": "Aviso importante: O upload de trabalhos está suspenso, e a última atualização dos trabalhos foi em: 9 / 4 / 1446 AH.",
+  "ru": "Важное объявление: Загрузка работ приостановлена, и последнее обновление работ было: 9 / 4 / 1446 AH.",
+  "ja": "重要なお知らせ：作品のアップロードは停止されています。最後の作品アップデートは 9 / 4 / 1446 AH でした。",
+  "ko": "중요 공지: 작품 업로드가 중단되었습니다. 마지막 작품 업데이트는 9 / 4 / 1446 AH였습니다.",
+  "zh-CN": "重要通知：作品上传已暂停，上次作品更新时间为：9 / 4 / 1446 AH。",
+  "zh-TW": "重要公告：作品上傳已暫停，上次作品更新時間為：9 / 4 / 1446 AH。",
+  "hi": "महत्वपूर्ण सूचना: कार्यों को अपलोड करना स्थगित कर दिया गया है, और कार्यों का अंतिम अद्यतन 9 / 4 / 1446 AH को हुआ था।",
+  "bn": "গুরুত্বপূর্ণ ঘোষণা: কাজ আপলোড করা স্থগিত করা হয়েছে, এবং কাজের শেষ আপডেট ছিল: 9 / 4 / 1446 AH।",
+  "tr": "Önemli Duyuru: Eser yükleme durdurulmuştur ve eserlerin son güncellemesi: 9 / 4 / 1446 AH tarihinde yapılmıştır.",
+  "id": "Pengumuman penting: Pengunggahan karya ditangguhkan, dan pembaruan terakhir karya adalah pada: 9 / 4 / 1446 AH.",
+  "ms": "Pengumuman penting: Muat naik karya digantung, dan kemas kini terakhir karya adalah pada: 9 / 4 / 1446 AH.",
+  "th": "ประกาศสำคัญ: การอัปโหลดผลงานถูกระงับ และการอัปเดตผลงานครั้งล่าสุดคือวันที่ 9 / 4 / 1446 AH",
+  "vi": "Thông báo quan trọng: Việc tải lên tác phẩm đã bị tạm dừng, và bản cập nhật cuối cùng của tác phẩm là vào ngày: 9 / 4 / 1446 AH.",
+  "pl": "Ważna informacja: Wgrywanie prac jest zawieszone, a ostatnia aktualizacja prac miała miejsce: 9 / 4 / 1446 AH.",
+  "sv": "Viktigt meddelande: Uppladdning av verk är avstängt, och den senaste uppdateringen av verken var: 9 / 4 / 1446 AH.",
+  "nl": "Belangrijke mededeling: Het uploaden van werken is opgeschort, en de laatste update van de werken was op: 9 / 4 / 1446 AH.",
+  "da": "Vigtig meddelelse: Upload af værker er suspenderet, og den sidste opdatering af værkerne var: 9 / 4 / 1446 AH.",
+  "fi": "Tärkeä ilmoitus: Teosten lataus on keskeytetty, ja teosten viimeisin päivitys oli: 9 / 4 / 1446 AH.",
+  "no": "Viktig kunngjøring: Opplasting av verk er stanset, og siste oppdatering av verkene var: 9 / 4 / 1446 AH.",
+  "hu": "Fontos bejelentés: A művek feltöltése felfüggesztve, a művek utolsó frissítése: 9 / 4 / 1446 AH.",
+  "ro": "Anunț important: Încărcarea lucrărilor este suspendată, iar ultima actualizare a lucrărilor a fost la data de: 9 / 4 / 1446 AH.",
+  "cs": "Důležité oznámení: Nahrávání děl je pozastaveno, a poslední aktualizace děl byla: 9 / 4 / 1446 AH.",
+  "uk": "Важливе оголошення: Завантаження робіт призупинено, останнє оновлення робіт було: 9 / 4 / 1446 AH."
+};
+
+const bruhElement = document.getElementById('bruh');
+
+let currentLanguage = 'ar';
+
+function changeLanguage() {
+  const languages = Object.keys(translations);
+  let nextLanguage;
+
+  do {
+    nextLanguage = languages[Math.floor(Math.random() * languages.length)];
+  } while (nextLanguage === currentLanguage);
+
+  bruhElement.classList.add('fade-out');
+  setTimeout(() => {
+    bruhElement.textContent = translations[nextLanguage];
+    bruhElement.classList.remove('fade-out');
+    bruhElement.classList.add('fade-in');
+    // Apply direction based on language (can be improved)
+    if (['ar', 'he', 'ur'].includes(nextLanguage)) {
+      bruhElement.dir = 'rtl';
+    } else {
+      bruhElement.dir = 'ltr';
+    }
+    setTimeout(() => {
+      bruhElement.classList.remove('fade-in');
+    }, 500);
+    currentLanguage = nextLanguage;
+  }, 500);
+}
+
+// Detect and set initial direction
+function setInitialDirection() {
+  const direction = window.getComputedStyle(document.body).direction;
+  bruhElement.dir = direction;
+}
+
+
+setInitialDirection(); // Set initial direction on page load
+setInterval(changeLanguage, 10000);
+</script>
+<!-- ############## -->
 <br>
 <select id="select" class="select-css">
 <option value="">جميع المواد</option>
